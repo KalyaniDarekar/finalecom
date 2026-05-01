@@ -8,6 +8,15 @@ import StarRating from '../components/StarRating'
 import api from '../utils/api'
 import toast from 'react-hot-toast'
 
+const CATEGORY_FALLBACKS = {
+  Mobiles: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200&q=90',
+  Laptops: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=1200&q=90',
+  Audio: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=90',
+  Tablets: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=1200&q=90',
+  Cameras: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=1200&q=90',
+  Accessories: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=90',
+}
+
 const MOCK_PRODUCTS = {
   '1': { _id: '1', name: 'iPhone 15 Pro', brand: 'Apple', price: 134900, category: 'Mobiles', rating: 4.8, numReviews: 1240, discount: 5, stock: 20, description: 'The iPhone 15 Pro features a titanium design, the powerful A17 Pro chip, a 48MP camera system, and a customizable Action button. Experience pro-level performance with exceptional battery life and the latest iOS features.', images: ['https://images.unsplash.com/photo-1668363958849-b22a6d5c47d7?w=600&q=80', 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&q=80'] },
   '2': { _id: '2', name: 'MacBook Pro 16"', brand: 'Apple', price: 249900, category: 'Laptops', rating: 4.9, numReviews: 890, discount: 0, stock: 10, description: 'The MacBook Pro 16" with M3 Max chip delivers unprecedented performance for professionals. Featuring a stunning Liquid Retina XDR display, up to 22 hours battery life, and the fastest Mac CPU ever.', images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&q=80', 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80'] },
@@ -89,6 +98,7 @@ export default function ProductDetailsPage() {
               initial={{ opacity: 0, scale: 1.05 }}
               animate={{ opacity: 1, scale: isZoomed ? 1.15 : 1 }}
               transition={{ duration: 0.4 }}
+              onError={(e) => { e.target.onerror = null; e.target.src = CATEGORY_FALLBACKS[product.category] || CATEGORY_FALLBACKS.Accessories; }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900/30 to-transparent pointer-events-none" />
             {product.discount > 0 && (
@@ -109,7 +119,7 @@ export default function ProductDetailsPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <img src={img} alt="" className="w-20 h-16 object-cover" />
+                  <img src={img} alt="" className="w-20 h-16 object-cover" onError={(e) => { e.target.onerror = null; e.target.src = CATEGORY_FALLBACKS[product.category] || CATEGORY_FALLBACKS.Accessories; }} />
                 </motion.button>
               ))}
             </div>

@@ -26,6 +26,7 @@ export default function ProductCard({ product, index = 0 }) {
 
   const imageUrl =
     product.images?.[0] || PLACEHOLDER_IMAGES[product.category] || PLACEHOLDER_IMAGES.Accessories
+  const fallbackUrl = PLACEHOLDER_IMAGES[product.category] || PLACEHOLDER_IMAGES.Accessories
 
   return (
     <motion.div
@@ -57,6 +58,7 @@ export default function ProductCard({ product, index = 0 }) {
               src={imageUrl}
               alt={product.name}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              onError={(e) => { e.target.onerror = null; e.target.src = fallbackUrl; }}
             />
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
